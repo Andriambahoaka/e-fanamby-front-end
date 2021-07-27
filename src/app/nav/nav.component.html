@@ -1,0 +1,60 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <img src="assets/img/pc.png">
+    <button mat-button [matMenuTriggerFor]="notif" class="mr-2">
+      <span matBadge="4" matBadgeSize="medium" matBadgeOverlap="false" matBadgeColor="warn">
+        <i class="fa fa-bell-o" aria-hidden="true" style="font-size:20px"></i>
+      </span>
+  </button>
+  <mat-menu #notif="matMenu" xPosition="before">
+    <button mat-menu-item [routerLink]="['/cnm/liste-dossier-cnm-arrive']">
+          <span matBadge="2" matBadgeSize="small" matBadgeOverlap="true" matBadgePosition="before">
+            <i class="pi pi-fw pi-folder"></i>
+          </span>
+          Nouvelle programme ajouté
+        </button>
+        <button  *ngFor="let n of notification " mat-menu-item>
+          <span matBadge="1" matBadgeSize="small" matBadgeOverlap="true" matBadgePosition="before">
+            <i class="pi pi-fw pi-folder"></i>
+          </span>
+          {{n}}
+        </button>
+</mat-menu>
+
+    <span class="example-spacer"></span>
+    <div>
+      <button mat-button [routerLink]="'admin/programme'"> <span>(Admin)</span> </button>
+      <button mat-button [routerLink]="''"> <span><img src="assets/img/home_.png" class="mr-2 mb-1"
+            width="20">Accueil</span> </button>
+      <button *ngIf="isConnected()" [routerLink]="'/mes-paris'"> <span><img src="assets/img/pari.png" class="mr-2 mb-1"
+        width="20">Mes paris</span> </button>
+      <button mat-button (click)="GuideDialog()"><span> <img src="assets/img/guide.png " class="mr-2 mb-1" width="20">Guide des paris</span>
+      </button>
+      <button mat-button> <span><img src="assets/img/check.png" class="mr-2 mb-1" width="20">Résultats</span> </button>
+      <button *ngIf="!isConnected()" mat-button (click)="connexionDialog()"> <span><i
+            class="pi pi-fw pi-sign-in mr-2"></i>Connexion</span> </button>
+      <button *ngIf="!isConnected()" mat-button [routerLink]="'/inscription'"> <span><img src="assets/img/user.png " class="mr-2 mb-1">Inscription</span> </button>
+      <button *ngIf="isConnected()" mat-button [matMenuTriggerFor]="menu"> <span><i
+            class="pi pi-fw pi-user mr-2"></i>{{userConnected.nom +" " +userConnected.prenom}}</span> </button>
+    </div>
+    <mat-menu #menu="matMenu" xPosition="before">
+      <button mat-menu-item><i class="pi pi-fw pi-user mr-2"></i>Mon compte</button>
+      <button mat-menu-item><i class="pi pi-fw pi-lock mr-2"></i>Changer de mot de passe</button>
+      <button mat-menu-item [routerLink]="'admin/programme'"><i class="pi pi-fw pi-user mr-2" ></i>Administration</button>
+      <button mat-menu-item (click)="logOut()"><i class="pi pi-fw pi-sign-out mr-2" ></i>Se déconnecter</button>
+    </mat-menu>
+
+  </mat-toolbar-row>
+  <!--
+        <mat-toolbar-row>
+            <span style="font-size: 12px;">SimpleCRM helps you easily manage your contacts</span>
+          </mat-toolbar-row>-->
+</mat-toolbar>
+
+<!-- Add Content Here
+<div [@Fade]="stateAnim">
+
+</div> -->
