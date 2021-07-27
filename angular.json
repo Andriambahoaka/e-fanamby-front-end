@@ -76,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "pari:build:production"
+              "browserTarget": "e-fanamby:build:production"
             },
             "development": {
-              "browserTarget": "pari:build:development"
+              "browserTarget": "e-fanamby:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -87,7 +87,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pari:build"
+            "browserTarget": "e-fanamby:build"
           }
         },
         "test": {
