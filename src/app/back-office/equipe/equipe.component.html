@@ -1,0 +1,70 @@
+<div id="wrapper">
+  <app-menu></app-menu>
+    <!-- Sidebar -->
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div>
+
+      <!-- Topbar -->
+      <app-nav-menu></app-nav-menu>
+      <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <p-toast></p-toast>
+              <div class="row">
+                <h6 class="m-0 font-weight-bold col-sm-9"><img src="assets/img/liste.png" class="mr-2" alt="Icon liste"> Liste des equipes <i *ngIf="loading"  class="pi pi-spin pi-spinner ml-2" ></i></h6>
+                 <a [routerLink]="'/admin/add/equipe'" class="btn btn-success btn-sm col-sm-2">
+                  Ajouter <i class="pi pi-fw pi-plus"></i>
+                </a>
+              </div>
+            </div>
+            <div class="card-body" *ngIf="!loading">
+                <div class="table-responsive" >
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>Nom</th>
+                        <th>Coach</th>
+                        <th>Crée le</th>
+                        <th>Créé par</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let e of listeEquipe">
+                        <td>{{e.nomEquipe}}</td>
+                        <td>{{e.coach}}</td>
+                        <td>{{e.createdAt | date:'dd/MM/yyyy h:mm'}}</td>
+                        <td>{{e.createdBy.username}}</td>
+                        <td><button class="btn btn-info mr-2" (click)="edit(e.id)" pTooltip="Modifier une équipe" tooltipPosition="top" ><i class="pi pi-fw pi-pencil"></i></button> <button class="btn btn-danger" pTooltip="Supprimer une équipe" tooltipPosition="top" (click)="delete(e)"><i class="pi pi-fw pi-trash" *ngIf="!loadingDelete" ></i><i *ngIf="loadingDelete"  class="pi pi-spin pi-spinner" ></i></button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white" *ngIf="!loading">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Administration site e-fanamby 2021</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+    </div>
+    <!-- End of Content Wrapper -->
+  </div>
+  <!-- End of Page Wrapper -->

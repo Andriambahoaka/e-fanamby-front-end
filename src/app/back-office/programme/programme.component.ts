@@ -17,24 +17,30 @@ export class ProgrammeComponent implements OnInit {
     private router: Router) { }
 
   listProgramme:Programme[];
+  loading:boolean=false;
 
   ngOnInit(): void {
-   /* this.programmeService.getProgrammes().subscribe(data=>{
-      this.listProgramme=data;
-      this.listProgramme.forEach(p=>{
-          this.coteService.getCotesByProgramme(p.id_programme).subscribe(data=>{
-              p.listeCotes=data;
-          });
+  this.loading=true;
+ this.programmeService.getProgrammes().subscribe(res=>{
+    console.log("programme from oracle",res);
+    this.listProgramme=res;
+    console.log(this.listProgramme);
+    this.listProgramme.forEach(p=>{
+      this.coteService.getCotesByProgramme(p.id).subscribe(data=>{
+        console.log("cotes",data);
+         p.listeCotes=data;
       });
-   });*/
-
-   this.listProgramme=this.programmeService.getProgrammesStatique();
-   this.listProgramme.forEach(p=>{
-    this.coteService.getCotesByProgramme(p.id_programme).subscribe(data=>{
-      console.log("cotes",data);
-        p.listeCotes=data;
-    });
+  });
+  this.loading=false;
 });
+/*
+this.listProgramme=this.programmeService.getProgrammesStatique();
+this.listProgramme.forEach(p=>{
+  this.coteService.getCotesByProgramme(p.id).subscribe(data=>{
+    console.log("cotes",data);
+     p.listeCotes=data;
+  });
+});*/
 
   }
 
@@ -66,7 +72,20 @@ export class ProgrammeComponent implements OnInit {
 
   }*/
 
-  edit(e:Programme){
-      this.router.navigate(['/edit-programme',e.id_programme]);
+  edit(id:number){
+      this.router.navigate(['/admin/cote',id]);
   }
+
+  goToResultat(id:number){
+    console.log(id);
+    this.router.navigate(['/admin/resultat',id]);
+  }
+
+  delete(p:Programme){
+    this.programmeService.deleteProgramme(p).subscribe(res=>{
+      console.log("delete",res);
+    });
+
+  }
+
 }

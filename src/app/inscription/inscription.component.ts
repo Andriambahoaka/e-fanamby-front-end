@@ -4,6 +4,10 @@ import { growAnimation, fadeAnimation } from '../shared/animations/my-animations
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmedValidator } from './confirmed.validator';
 import { NavService } from '../service/nav.service';
+import { Utilisateur } from '../model/utilisateur.model';
+import { AuthService } from '../service/auth.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inscription',
@@ -17,7 +21,7 @@ import { NavService } from '../service/nav.service';
 })
 export class InscriptionComponent implements OnInit {
 
-  constructor(private messageService: MessageService, private _formBuilder: FormBuilder,private nav:NavService) {
+  constructor(private messageService: MessageService,private router: Router,private _snackBar: MatSnackBar,private authService: AuthService, private _formBuilder: FormBuilder,private nav:NavService) {
     this.nav.hide();
    }
   activeIndex: number = 0;
@@ -32,7 +36,7 @@ export class InscriptionComponent implements OnInit {
   nom: string;
   prenom='';
   email:string='';
-  dateNaissance=null;
+  dateNaissance:Date;
   adresse='';
   contact='';
   sexe='';
@@ -153,10 +157,32 @@ export class InscriptionComponent implements OnInit {
   }
 
   valider() {
+    var u =new Utilisateur();
+   /*  u.username=this.nom + this.prenom;
+     u.email=this.email;
+     u.password=this.mdp;
+     u.dateNaissance=this.dateNaissance;
+     u.solde=0;
+     u.codeParrain="";
+     u.role=["mod", "user"]; */
 
+
+     u.username="Mah";
+     u.idParrain=41;
+     u.email="Mah@gmail.com";
+     u.password="password";
+     //u.dateNaissance=new Date();
+     //u.role=["user"];
+
+
+
+     console.log(u);
+     this.authService.signUp(u).then(res=>{
+       console.log(res);
+       this._snackBar.open(res["message"], 'Veuillez vous connectez !!');
+       //this.router.navigate([" "]);
+     });
   }
-
-
 
 
 }

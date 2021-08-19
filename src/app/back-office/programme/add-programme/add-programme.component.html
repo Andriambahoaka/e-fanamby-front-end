@@ -1,0 +1,97 @@
+
+<div id="wrapper">
+  <app-menu></app-menu>
+    <!-- Sidebar -->
+    <!-- End of Sidebar -->
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+      <!-- Topbar -->
+      <app-nav-menu></app-nav-menu>
+      <!-- End of Topbar -->
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <!--   <h5 class="m-0 text-dark">Type Operation</h5>-->
+              <div class="row">
+                <h6 class="m-0 font-weight-bold col-sm-10"><img src="assets/img/add.png" class="mr-2" alt="Icon Add">Ajouter un programme <i *ngIf="loading"  class="pi pi-spin pi-spinner ml-2" ></i></h6>
+              </div>
+              <p-toast></p-toast>
+            </div>
+            <div class="card-body" *ngIf="!loading">
+              <p-toast></p-toast>
+              <form [formGroup]="formGroup" #formType (ngSubmit)="ajouter()">
+              <div class="row">
+                <div class="col-sm-6">
+                    <div class="input-group" style="margin-bottom: 15px;">
+                      <label class="col-sm-3">Libelle : </label>
+                      <input type="text" value="" name="libelle" [(ngModel)]="libelle" class="form-control col-sm-9"
+                        required="" formControlName="libelle" placeholder="Inserez le libelle..." aria-label="Title" aria-describedby="basic-addon2">
+                    </div>
+                    <div class="input-group" style="margin-bottom: 15px;">
+                      <label class="col-sm-3">Heure : </label>
+                      <input type="time" value="" name="heure" [(ngModel)]="heure" class="form-control col-sm-9"
+                        required="" formControlName="heure" aria-label="Title" aria-describedby="basic-addon2">
+                    </div>
+
+                    <div class="input-group" style="margin-bottom: 15px;">
+                      <label class="col-sm-3">Equipe :</label>
+                      <p-listbox [options]="listEquipe" [(ngModel)]="selectedEquipes" formControlName="selectedEquipes" [metaKeySelection]="false" [checkbox]="true"
+                      [filter]="true" [multiple]="true" optionLabel="nomEquipe" [listStyle]="{'max-height':'200px'}"
+                      [style]="{'width':'21.5rem'}">
+                      <ng-template let-p pTemplate="item">
+                        <div class="country-item">
+                          <div>{{p.nomEquipe}}</div>
+                        </div>
+                      </ng-template>
+                    </p-listbox>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="input-group" style="margin-bottom: 15px;">
+                    <label class="col-sm-3">Date : </label>
+                    <input type="date" value="" name="date" [(ngModel)]="date" class="form-control col-sm-9"
+                      required="" formControlName="date"  aria-label="Title" aria-describedby="basic-addon2">
+                  </div>
+                  <div class="input-group" style="margin-bottom: 15px;">
+                    <label class="col-sm-3">Categorie :</label>
+                    <p-listbox [options]="categories" [(ngModel)]="selectedCategorie" formControlName="selectedCategorie" [metaKeySelection]="false" [checkbox]="true"
+                    [filter]="true" [multiple]="false" optionLabel="nomCateg" [listStyle]="{'max-height':'200px'}"
+                    [style]="{'width':'21.5rem'}">
+                    <ng-template let-p pTemplate="item">
+                      <div class="country-item">
+                        <div>{{p.nomCateg}}</div>
+                      </div>
+                    </ng-template>
+                  </p-listbox>
+                  </div>
+
+
+              </div>
+              <div class="input-group" style="margin-bottom: 15px;">
+                <button class="btn btn-success offset-2" type="submit"><i *ngIf="!loadingAjout" class="pi pi-fw pi-plus mr-2"></i><i *ngIf="loadingAjout"  class="pi pi-spin pi-spinner mr-2" ></i>Ajouter</button>
+              </div>
+              </div>
+            </form>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white" *ngIf="!loading">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Administration site e-fanamby 2021</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+    </div>
+    <!-- End of Content Wrapper -->
+  </div>
+  <!-- End of Page Wrapper -->

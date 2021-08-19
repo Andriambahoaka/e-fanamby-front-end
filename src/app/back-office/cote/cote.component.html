@@ -22,39 +22,40 @@
           <div class="card-header py-3">
             <!--   <h5 class="m-0 text-dark">Type Operation</h5>-->
             <div class="row">
-              <h6 class="m-0 font-weight-bold col-sm-10">Attribuer cote au programme ( à modifier : -choisir programme
-                en table / -cote par equipe )</h6>
+              <h6 class="m-0 font-weight-bold col-sm-10">Attribuer cote au programme <i *ngIf="loading"  class="pi pi-spin pi-spinner ml-2" ></i></h6>
               <!---               <a href="create" class="btn btn-success btn-sm col-sm-1">
                   Ajouter <i class="fas fa-plus"></i>
                 </a>-->
 
             </div>
           </div>
-          <div class="card-body">
-            <form (ngSubmit)="valider()">
+          <div class="card-body" *ngIf="!loading" >
+            <form #formCote (ngSubmit)="valider()">
               <div class="row">
-                <div class=" col-sm-8">
+                <div class=" col-sm-7">
                   <div class="input-group">
                     <label class="col-sm-3">Programme : </label>
-                    <select class="form-control col-sm-8" name="idProgramme" [(ngModel)]="idProgramme" required>
+                    <label class="col-sm-3">{{programme.libelle}}</label>
+                  <!-- <select class="form-control col-sm-8" name="idProgramme" [(ngModel)]="idProgramme" required>
                       <option value="">--Choisir programme--</option>
                       <option *ngFor="let p of listP" value="{{p.id_programme}}">{{p.libelle}}</option>
-                    </select>
+                    </select> -->
                   </div>
                   <br>
-                  <h6 class="text-gray-800"> >> Attribuer des cotes au programme choisi :</h6>
+                  <h6 class="text-gray-800"> >> Attribuer des cotes au programme :</h6>
                   <hr>
                   <div class="input-group" style="margin-bottom: 15px;">
-                    <label class="col-sm-3">Valeur : </label>
-                    <input type="number" value="" name="valeur" [(ngModel)]="valeur" class="form-control col-sm-8"
-                      placeholder="Valeur..." aria-label="Title" aria-describedby="basic-addon2">
-                  </div>
-                  <div class="input-group" style="margin-bottom: 15px;">
                     <label class="col-sm-3">Type du cote : </label>
-                    <select class="form-control col-sm-8" name="idTypeCote" [(ngModel)]="idTypeCote" required>
-                      <option value="">--Choisir type cote--</option>
+                    <select  class="form-control col-sm-8" placeholder="--Choisir type cote--" name="idTypeCote" (change)="choisir()" [(ngModel)]="idTypeCote" required>
+                      <option  value="0"  >--Choisir type cote--</option>
                       <option *ngFor="let p of listTypeCote" value="{{p._id}}">{{p.titre}}</option>
                     </select>
+                  </div>
+                  <div *ngFor="let c of cotes" class="input-group" style="margin-bottom: 15px;">
+                    <label class="col-sm-4">Parametre : {{c.parametre.libelle}}  </label>
+                      <label class="col-sm-2" >Valeur : </label>
+                      <input type="number" min="1.5" value="" name="valeur" [(ngModel)]="c.valeur" class="form-control col-sm-6"
+                        placeholder="Valeur..." aria-label="Title" aria-describedby="basic-addon2">
                   </div>
                   <div class="input-group" style="margin-bottom: 15px;">
                     <a class="btn btn-info offset-3" (click)="attribuer()"><i
@@ -64,21 +65,23 @@
                     <button class="btn btn-success" type="submit"><i class="pi pi-fw pi-save mr-2"></i>Valider</button>
                   </div>
                 </div>
-                <div class="table-responsive col-sm-4" *ngIf="listCote.length!=0">
+                <div class="table-responsive col-sm-5" *ngIf="listCote.length!=0">
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                       <tr>
-                        <th>Valeur</th>
                         <th>Type cote</th>
+                        <th>Parametre</th>
+                        <th>Valeur</th>
+
                         <th></th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let p of listCote">
-                        <td>{{p.valeur}}</td>
                         <th>{{p.type.titre}}</th>
-                        <th><a class="btn btn-danger" (click)="supprimer(p)">
-
+                        <td>{{p.parametre.libelle}}</td>
+                        <td>{{p.valeur}}</td>
+                        <th><a class="btn btn-danger" (click)="supprimer(p,p.type)">
                             <i class="pi pi-fw pi-trash"></i>
                           </a></th>
                       </tr>
@@ -86,8 +89,6 @@
                   </table>
                 </div>
               </div>
-
-
             </form>
           </div>
         </div>

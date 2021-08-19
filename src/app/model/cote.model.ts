@@ -6,8 +6,10 @@ import { TypeCote } from "./type-cote.model";
 export class Cote {
   _id?:Number;
   idCote:number;
+  idProgramme:number;
   valeur:number;
-  win:Boolean;
+  //statut:number;
+  win:boolean;
   created_at:Date;
   type:TypeCote;
   programme:Programme;

@@ -1,14 +1,12 @@
-
 <app-nav></app-nav>
-<div class="py-4 px-4">
+<div class="py-4 px-4 mb-3" >
   <h5>Mes paris</h5>
   <p-toast></p-toast>
-<table *ngIf="listPari.length!=0">
+<table class="table table-striped" *ngIf="listPari.length!=0">
   <thead>
     <th>Date du pari</th>
     <th>Programme</th>
     <th>Résultat après le</th>
-    <th>Equipe misée</th>
     <th>Cote</th>
     <th>Mise</th>
     <th>Gain</th>
@@ -16,25 +14,22 @@
   </thead>
   <tbody>
     <tr *ngFor="let p of listPari">
-      <td>{{p.date}}</td>
+      <td>{{p.date | date}}</td>
       <td>{{p.cote.programme.libelle}}</td>
-      <td>{{p.cote.programme.date_pgm}}</td>
-      <td>Equipe</td>
+      <td>{{p.cote.programme.dateHeurePgm | date}}</td>
       <td>{{p.cote.valeur}}</td>
       <td>{{p.mise}}</td>
       <td>{{p.gain}}</td>
-      <td><p-message severity="info" text="En attente de résultat" styleClass="p-mr-2"></p-message>
-        <p-message severity="success" text="Gagné" styleClass="p-mr-2"></p-message>
-        <p-message severity="error" text="Perdu"></p-message></td>
+      <td>
+       <p-message severity="{{p.statutText[1]}}" text="{{p.statutText[0]}}" styleClass="p-mr-2"></p-message>
     </tr>
   </tbody>
 </table>
-<p-messages severity="info" *ngIf="listPari.length!=0">
+<p-messages severity="info" *ngIf="listPari.length==0">
   <ng-template pTemplate>
-      <img src="assets/showcase/images/primeng.svg" width="32" />
+      <img src="assets/img/empty.png" width="20" />
       <div class="p-ml-2"><span>Vous n'avez pas encore parié pour le moment !</span></div>
   </ng-template>
 </p-messages>
-
 </div>
 <app-footer></app-footer>

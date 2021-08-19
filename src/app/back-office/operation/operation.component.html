@@ -20,9 +20,11 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
           <div class="card-header py-3">
-            <h5 class="m-0 text-dark">Gestion des operations</h5>
+            <div class="row">
+              <h6 class="m-0 font-weight-bold col-sm-9"><img src="assets/img/processing.png" class="mr-2" alt="Icon liste">Operations des utilisateurs <i *ngIf="loading"  class="pi pi-spin pi-spinner ml-2" ></i></h6>
+            </div>
           </div>
-          <div class="card-body">
+          <div class="card-body" *ngIf="!loading">
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
@@ -31,20 +33,18 @@
                     <th>Montant</th>
                     <th>Solde</th>
                     <th>Type Operation</th>
+                    <th>Date</th>
+                    <th>Heure</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Jonas Alexander</td>
-                    <td>15000</td>
-                    <td>34300</td>
-                    <td>huhu</td>
-                  </tr>
                   <tr *ngFor="let o of listOperation">
-                    <td>{{o.utilisateur.nom}}</td>
+                    <td>{{o.utilisateur.username}}</td>
                     <td>{{o.montant}}</td>
                     <td>{{o.solde}}</td>
                     <td>{{o.typeOperation.libelle}}</td>
+                    <td>{{o.created_at | date:'dd/MM/yyyy'}}</td>
+                    <td>{{o.created_at | date:'h:mm'}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -58,7 +58,7 @@
     <!-- End of Main Content -->
 
     <!-- Footer -->
-    <footer class="sticky-footer bg-white">
+    <footer class="sticky-footer bg-white" *ngIf="!loading" >
       <div class="container my-auto">
         <div class="copyright text-center my-auto">
           <span>Copyright &copy; Administration site e-fanamby 2021</span>

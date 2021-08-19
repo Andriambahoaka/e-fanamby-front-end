@@ -5,13 +5,15 @@ import { Programme } from '../model/programme.model';
 import { CategorieService } from '../service/categorie.service';
 import { CoteService } from '../service/cote.service';
 import { ProgrammeService } from '../service/programme.service';
-import {MenuItem} from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { Cote } from '../model/cote.model';
 import { Panier } from '../model/panier.model';
-import { Equipe } from '../model/equipe.model';
 import { Pari } from '../model/pari.model';
-import { TypeCote } from '../model/type-cote.model';
 import { PariService } from '../service/pari.service';
+import { Utilisateur } from '../model/utilisateur.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 
@@ -25,18 +27,26 @@ import { PariService } from '../service/pari.service';
 export class AccueilComponent implements OnInit {
 
 
-  constructor(private messageService: MessageService,private programmeService: ProgrammeService,
-    private categorieService:CategorieService,private coteService: CoteService,private pariService: PariService) {
+  constructor(private messageService: MessageService, private programmeService: ProgrammeService,
+    private categorieService: CategorieService, private coteService: CoteService, private pariService: PariService, private snackbar: MatSnackBar, private router: Router) {
 
   }
 
 
   listProgramme: Programme[];
   listCategorie: Categorie[];
-  items: MenuItem[]=[];
+  items: MenuItem[] = [];
   status: boolean = false;
-  listpanier:Panier[]=[];
-  total:number=0;
+  // listpanier:Panier[]=[];
+  loadingCategorie:boolean=false;
+  loading:boolean=false;
+  panier: Panier;
+  total: number = 0;
+  miseTotal: number = 0;
+  selectedProgramme: Programme;
+  detail: Boolean = false;
+  //gain:number=0;
+  //decimalPipe = new DecimalPipe('en-US');
   /*
   listPari:Pari[];
   value19: number = 200;
@@ -50,49 +60,67 @@ export class AccueilComponent implements OnInit {
       this.listProgramme = data;
     });*/
 
-  /*
-    this.categorieService.getCategories().subscribe(data=>{
-      this.listCategorie=data;
+    /*
+      this.categorieService.getCategories().subscribe(data=>{
+        this.listCategorie=data;
+      });
+    */
+    this.panier = new Panier();
+    this.panier.listPari = [];
+
+
+    // this.total=this.panier.reduce((sum, current) => sum + current.gain(), 0);
+    //this.listCategorie = this.categorieService.getCategoriesStatique();
+    this.loadingCategorie=true;
+    this.loading=true;
+    this.items=this.categorieService.getMenu();
+  /*  this.listCategorie.forEach(cat => {
+      this.items.push({ label: cat.nomCateg });
+    });*/
+    ///this.loadingCategorie=false;
+    this.listProgramme = this.programmeService.getProgrammesStatique();
+
+    this.programmeService.getByEtat(2).subscribe(data=>{
+        this.listProgramme=data;
+        console.log(data);
+        this.listProgramme.forEach(p => {
+          this.coteService.getCotesByProgramme(p.id).subscribe(data => {
+            //console.log("cotes",data);
+            p.listeCotes = data;
+            console.log("Populate affichage");
+            this.programmeService.populateAffiche(p);
+            // p.affichageCote=data;
+
+          });
+        });
+        this.loading=false;
     });
-  */
+
+    /*
+    let prog=new Programme();
+    prog.libelle="Champ me";
+    prog.listeEquipes=this.listEquipe;
+    let pari=new Pari();
+    pari.mise=200;
+    let typeC=new TypeCote();
+    typeC.titre="X23";
+    pari.cote=new Cote();
+    pari.cote.valeur=3;
+    pari.cote.type=typeC;
 
 
-    this.listCategorie=this.categorieService.getCategoriesStatique();
-    this.listCategorie.forEach(cat=>{
-         this.items.push({label: cat.nom_categ});
-    });
-    this.listProgramme=this.programmeService.getProgrammesStatique();
-    this.listProgramme.forEach(p=>{
-     this.coteService.getCotesByProgramme(p.id_programme).subscribe(data=>{
-       console.log("cotes",data);
-         p.listeCotes=data;
-     });
- });
- /*
- let prog=new Programme();
- prog.libelle="Champ me";
- prog.listeEquipes=this.listEquipe;
- let pari=new Pari();
- pari.mise=200;
- let typeC=new TypeCote();
- typeC.titre="X23";
- pari.cote=new Cote();
- pari.cote.valeur=3;
- pari.cote.type=typeC;
+    let panier=new Panier();
+    panier.pari=pari;
+    panier.programme=prog;
 
 
- let panier=new Panier();
- panier.pari=pari;
- panier.programme=prog;
-
-
- this.listpanier.push(panier);
- */
+    this.listpanier.push(panier);
+    */
   }
 
 
 
-  setTotal(){
+  setTotal() {
     /*
     this.listpanier.forEach(panier=>{
         let gain=panier.pari.mise*panier.pari.cote.valeur;
@@ -100,44 +128,77 @@ export class AccueilComponent implements OnInit {
     });*/
 
   }
-  clickEvent(p:Programme,c:Cote) {
-   // this.setTotal();
-    if (c.inCart){
-      this.total=0;
-        this.listpanier.forEach((pan,index)=>{
-          if(pan.pari.cote==c){
-            this.listpanier.splice(index,1);
-          }
-          let gain=pan.pari.mise*pan.pari.cote.valeur;
-          this.total=this.total-gain;
-        });
-    }else{
-      let pn=new Panier();
-      let pari=new Pari();
-      pari.cote=c;
-      pari.gain=pari.mise*pari.cote.valeur;
-      pn.programme=p;
-      pn.pari=pari;
-      this.listpanier.push(pn);
-      let gain=pn.pari.mise*pn.pari.cote.valeur;
-      this.total=this.total-gain;
+  clickEvent(p: Programme, c: Cote) {
+    // this.setTotal();
+    c.programme = p;
+    c.win = false;
+    console.log(c.programme);
+    if (c.inCart) {
+      this.panier.listPari.forEach((pari, index) => {
+        if (pari.cote == c) {
+          this.panier.listPari.splice(index, 1);
+          this.miseTotal = this.miseTotal - pari.mise;
+          console.log(this.panier.gainTotal());
+        }
+      });
+    } else {
+      let pari = new Pari();
+      pari.cote = c;
+      this.panier.listPari.push(pari);;
+      //  console.log(this.panier.gainTotal());
     }
-    c.inCart=!c.inCart;
+    c.inCart = !c.inCart;
   }
 
-  parier(){
+  parier() {
     if (localStorage.getItem('isLoggedIn') == "true") {
-      this.listpanier.forEach(panier=>{
-        panier.pari.cote.programme=panier.programme;
-        panier.pari.joueur=JSON.parse(localStorage.getItem('userConnected') || '{}');
-        console.log("Pari",panier.pari);
-       // this.pariService.postPari(panier.pari);
-   });
-    this.messageService.add({ severity: 'error', summary: 'Vos paris sont enregistrés avec succès !', detail: "En attente de résultat des programmes" });
+      console.log("Mise Total", this.panier.miseTotal());
+      let user = JSON.parse(localStorage.getItem('userConnected') || '{}') as Utilisateur;
+      console.log("solde",user.solde);
+      if (user.solde < this.panier.miseTotal()) {
+        this.messageService.add({ severity: 'error', summary: 'Solde insuffisant ', detail: "Votre solde n' est pas suffisant pour miser cette somme: "+this.panier.miseTotal()+" Ar !" });
+      } else {
+        console.log("Pret à parier",this.panier.listPari);
+
+        this.panier.listPari.forEach(pari => {
+          //pari.cote.programme=panier.programme;
+          pari.utilisateur = user;
+          let p = new Programme();
+          p.libelle = pari.cote.programme.libelle;
+          p.dateHeurePgm = pari.cote.programme.dateHeurePgm;
+          p.equipes = pari.cote.programme.equipes;
+          pari.cote.programme = p;
+          pari.date = new Date();
+          pari.gain=pari.getGain();
+          console.log("Pari", pari);
+
+          this.pariService.postPari(pari).subscribe(response => {
+            console.log(response);
+          });
+        });
+
+        this.messageService.add({ severity: 'success', summary: 'Vos paris sont enregistrés avec succès !', detail: "En attente de résultat des programmes" });
+        this.snackbar.open("Vos paris sont enregistrés avec succès !", "Fermer");
+        this.router.navigate(['/mes-paris'])
+          .then(() => {
+            window.location.reload();
+        });
+
+      }
+
     }
     else {
       this.messageService.add({ severity: 'error', summary: 'Veuillez vous connectez pour parier', detail: "" });
     }
+  }
+
+
+  detailProgramme(p: Programme) {
+    this.selectedProgramme = p;
+    this.detail = true;
+  }
+  hideDetail() {
+    this.detail = false;
   }
 }
 

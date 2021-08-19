@@ -11,6 +11,8 @@
           <br>
           <h5> <i class="pi pi-info"></i> Information personnelle</h5>
           <br>
+          <button pButton type="button" class="p-button-raised p-button-success " (click)="valider()">Valider<i
+            class="pi pi-fw pi-chevron-right ml-2 "  ></i></button>
           <form [formGroup]="firstFormGroup" (ngSubmit)="stepTwo()">
             <div class="p-grid">
               <div class="p-inputgroup p-col-5 p-ml-6 ">
@@ -182,28 +184,28 @@
             <div class="p-grid">
 
               <label class="p-col-3 text-left text-info" ><i class="pi pi-info mr-2"></i>Nom :</label>
-              <label class="p-col-2 "> {{nom}} nom </label>
+              <label class="p-col-2 "> {{nom}}  </label>
               <label class="p-col-3 text-left text-info"> <i class="pi pi-info mr-2"></i>Prenom :</label>
-              <label class="p-col-2"> {{prenom}}nom </label>
+              <label class="p-col-2"> {{prenom}} </label>
             </div>
             <hr>
             <div class="p-grid">
               <label class="p-col-3 text-left text-info"><i class="pi pi-id-card mr-2"></i>Date de naissance :</label>
-              <label class="p-col-2"> {{dateNaissance  | date:'short'}}  nom</label>
+              <label class="p-col-2"> {{dateNaissance  | date:'short'}}  </label>
               <label class="p-col-3 text-left text-info"><i class="pi pi-map mr-2"></i>Adresse :</label>
-              <label class="p-col-2  "> {{adresse}}  nom</label>
+              <label class="p-col-2  "> {{adresse}}  </label>
             </div>
             <hr>
             <div class="p-grid">
               <label class="p-col-3 text-left text-info "><i class="pi pi-phone mr-2"></i>Contact :</label>
-              <label class="p-col-2  "> {{contact}} nom </label>
+              <label class="p-col-2  "> {{contact}}  </label>
               <label class="p-col-3 text-left text-info "> <i class="pi pi-envelope mr-2"></i>Email :</label>
-              <label class="p-col-2">{{email}} nom</label>
+              <label class="p-col-2">{{email}} </label>
             </div>
             <hr>
             <div class="p-grid">
               <label class="p-col-3 text-left text-info"><i class="pi pi-users mr-2"></i>Sexe :</label>
-              <label class="p-col-2  ">{{sexe}} nom</label>
+              <label class="p-col-2  ">{{sexe}} </label>
             </div>
             <div class="p-grid">
 
@@ -213,7 +215,7 @@
               </div>
 
               <div class="p-inputgroup  p-col-2">
-                <button pButton type="button" class="p-button-raised p-button-success " (click)="stepFour()">Valider<i
+                <button pButton type="button" class="p-button-raised p-button-success " (click)="valider()">Valider<i
                     class="pi pi-fw pi-chevron-right ml-2 "  ></i></button>
               </div>
             </div>

@@ -8,6 +8,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
+/////Badge /////
+//import {BadgeModule} from 'primeng/badge';
+import {MatBadgeModule } from '@angular/material/badge';
+
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -22,11 +26,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule} from '@angular/material/toolbar';
 import { MatMenuModule} from '@angular/material/menu';
-import {MenubarModule} from 'primeng/menubar';
-import {InputNumberModule} from 'primeng/inputnumber';
+import { MenubarModule} from 'primeng/menubar';
+import { InputNumberModule} from 'primeng/inputnumber';
 import { FormsModule,ReactiveFormsModule  } from '@angular/forms';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
-import { MatSelectModule} from '@angular/material/select';
+import {MatSelectModule} from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
 import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
@@ -54,6 +58,27 @@ import { InscriptionComponent } from './inscription/inscription.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FooterComponent } from './footer/footer.component';
 import { MesParisComponent } from './mes-paris/mes-paris.component';
+
+//import { MessagingService } from './service/messaging.service';
+
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from 'src/environments/environment';
+import { MessagingService } from './service/messaging.service';
+import { AsyncPipe } from '@angular/common';
+import { ServiceWorkerModule } from '@angular/service-worker';
+//import { NgxPayPalModule } from 'ngx-paypal';
+import { NgxPayPalModule } from '../../projects/ngx-paypal-lib/src/public_api';
+
+import {FlexLayoutModule} from "@angular/flex-layout";
+import {BreadcrumbModule} from 'primeng/breadcrumb';
+import { MonCompteComponent } from './mon-compte/mon-compte.component';
+import { MesOperationsComponent } from './mon-compte/mes-operations/mes-operations.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MenuCompteComponent } from './mon-compte/menu-compte/menu-compte.component';
+import { DepotComponent } from './mon-compte/depot/depot.component';
 //import { AuthGuard } from './service/auth.guard';
 
 
@@ -71,7 +96,11 @@ const routes: Routes = [
     ConnexionDialog,
     GuideDialog,
     FooterComponent,
-    MesParisComponent
+    MesParisComponent,
+    MonCompteComponent,
+    MesOperationsComponent,
+    MenuCompteComponent,
+    DepotComponent
   ],
   imports: [
     BrowserModule,
@@ -84,9 +113,22 @@ const routes: Routes = [
     FormsModule,ReactiveFormsModule,HttpClientModule,MatSnackBarModule,ListboxModule,
     DropdownModule,InputTextModule, NgbModule,MatSelectModule,MegaMenuModule,CardModule,ButtonModule,
     ConfirmDialogModule,CalendarModule,MessageModule,MessagesModule,StepsModule,InputMaskModule,CheckboxModule,ToastModule,
-    MenubarModule,InputNumberModule,MatDialogModule
+    MenubarModule,InputNumberModule,MatDialogModule,MatBadgeModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireMessagingModule,
+    FlexLayoutModule,BreadcrumbModule,
+    MatProgressBarModule,NgxPayPalModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
+
   ],
-  providers: [ConfirmationService,MessageService],
+  providers: [MessagingService,ConfirmationService,MessageService,AsyncPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

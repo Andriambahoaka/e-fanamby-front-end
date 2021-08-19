@@ -7,8 +7,36 @@
   <hr class="sidebar-divider my-0">
   <!-- Nav Item - Pages Collapse Menu -->
   <li class="nav-item">
+    <a class="nav-link" [routerLink]="'/admin/dashboard'">
+      <img src="assets/img/chart.png" width="20" class="mr-2 mb-1">
+      <span>Tableau de Bord</span>
+    </a>
+  </li>
+  <hr class="sidebar-divider my-0">
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="'/admin/utilisateur'">
+      <img src="assets/img/add-user.png" width="25"  class="mr-2 mb-1">
+      <span>Utilisateur</span>
+    </a>
+  </li>
+  <hr class="sidebar-divider my-0">
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="'/admin/categorie'">
+      <img src="assets/img/categorie_24.png" width="16"  class="mr-2 mb-1">
+      <span>Categorie</span>
+    </a>
+  </li>
+  <hr class="sidebar-divider my-0">
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="'/admin/equipe'">
+      <img src="assets/img/network.png" width="25"  class="mr-2 mb-1">
+      <span>Equipe</span>
+    </a>
+  </li>
+  <hr class="sidebar-divider my-0">
+  <li class="nav-item">
     <a class="nav-link" [routerLink]="'/admin/programme'">
-      <img src="assets/img/operation.png" class="mr-2 mb-1">
+      <img src="assets/img/calendar.png" class="mr-2 mb-1">
       <span>Programme</span>
     </a>
   </li>
@@ -19,38 +47,19 @@
       <span>Pari</span>
     </a>
   </li>
-<!--  <hr class="sidebar-divider my-0">
+  <hr class="sidebar-divider my-0">
   <li class="nav-item">
-    <a class="nav-link" [routerLink]="'/admin/operation'">
-      <img src="assets/img/operation.png" class="mr-2 mb-1">
+    <a class="nav-link" [routerLink]="'/admin/operation'" href="#">
+      <img src="assets/img/processing.png" class="mr-2 mb-1">
       <span>Operation</span>
     </a>
-  </li>   -->
+  </li>
 
   <hr class="sidebar-divider my-0">
   <li class="nav-item">
     <a class="nav-link" [routerLink]="'/admin/type-operation'">
       <img src="assets/img/operation.png" class="mr-2 mb-1">
       <span>Type Operation</span>
-    </a>
-  </li>
-  <hr class="sidebar-divider my-0">
-  <!--
-
-  <li class="nav-item">
-    <a class="nav-link" [routerLink]="'/admin/modele-cote'" href="#">
-      <img src="assets/img/cote.png" class="mr-2 mb-1">
-      <span>Modele Cote</span>
-    </a>
-  </li>
-
-   -->
-
-  <hr class="sidebar-divider my-0">
-  <li class="nav-item">
-    <a class="nav-link" [routerLink]="'/admin/cote'" href="#">
-      <img src="assets/img/cote.png" class="mr-2 mb-1">
-      <span>Cote</span>
     </a>
   </li>
   <hr class="sidebar-divider my-0">
@@ -63,17 +72,15 @@
   <hr class="sidebar-divider my-0">
   <li class="nav-item">
     <a class="nav-link" [routerLink]="'/admin/parametre-cote'">
-      <img src="assets/img/cote.png"  class="mr-2 mb-1">
+      <img src="assets/img/adjust.png" width="25" class="mr-2 mb-1">
       <span>Parametre Cote</span>
     </a>
   </li>
   <!-- Nav Item - Utilities Collapse Menu -->
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block">
-
   <!-- Sidebar Toggler (Sidebar) -->
   <div class="text-center d-none d-md-inline">
     <button class="rounded-circle border-0" id="sidebarToggle"></button>
   </div>
-
 </ul>

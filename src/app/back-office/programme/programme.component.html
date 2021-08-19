@@ -21,14 +21,13 @@
             <div class="card-header py-3">
               <!--   <h5 class="m-0 text-dark">Type Operation</h5>-->
               <div class="row">
-                <h6 class="m-0 font-weight-bold col-sm-10">Liste des programmes</h6>
-                <!---               <a href="create" class="btn btn-success btn-sm col-sm-1">
-                  Ajouter <i class="fas fa-plus"></i>
-                </a>-->
-
+                <h6 class="m-0 font-weight-bold col-sm-9"><img src="assets/img/liste.png" class="mr-2" alt="Icon liste">Liste des programmes <i *ngIf="loading"  class="pi pi-spin pi-spinner ml-2" ></i></h6>
+                 <a [routerLink]="'/admin/add/programme'" class="btn btn-success btn-sm col-sm-2">
+                  Ajouter <i class="pi pi-fw pi-plus"></i>
+                </a>
               </div>
             </div>
-            <div class="card-body">
+            <div class="card-body" *ngIf="!loading">
                 <div class="table-responsive" >
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -37,14 +36,20 @@
                         <th>Date</th>
                         <th>Heure</th>
                         <th>Cotes</th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let e of listProgramme">
                         <td>{{e.libelle}}</td>
-                        <td>{{e.date_pgm | date:'dd/MM/yyyy'}}</td>
-                        <td>{{e.date_pgm | date: 'h:mm'}}</td>
-                        <td><span *ngFor="let c of e.listeCotes">{{c.valeur +" : "+ c.type.titre+"   / "}}</span></td>
+                        <td>{{e.dateHeurePgm | date:'dd/MM/yyyy'}}</td>
+                        <td>{{e.dateHeurePgm | date: 'h:mm'}}</td>
+                        <td *ngIf="e.etat.id==2"><span *ngFor="let c of e.listeCotes">{{c.valeur +" : "+ c.type.titre+"   / "}}</span></td>
+                        <td *ngIf="e.etat.id==1"><img src="assets/img/empty.png" class="mr-2">Liste cote vide </td>
+                        <td>
+                          <div *ngIf="e.etat.id==1"><button class="btn btn-info mr-2" pTooltip="Attribuer des cotes" tooltipPosition="top" (click)="edit(e.id)"><i class="pi pi-fw pi-plus"></i></button><button class="btn btn-danger" pTooltip="Supprimer le programme" tooltipPosition="top" (click)="delete(e)"><i class="pi pi-fw pi-trash"></i></button></div>
+                          <div *ngIf="e.etat.id==2"><button class="btn btn-success mr-2" pTooltip="Publier Résultat" tooltipPosition="top" (click)="goToResultat(e.id)"><i class="pi pi-fw pi-check-circle"></i></button></div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -57,7 +62,7 @@
       <!-- End of Main Content -->
 
       <!-- Footer -->
-      <footer class="sticky-footer bg-white">
+      <footer class="sticky-footer bg-white" *ngIf="!loading">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
             <span>Copyright &copy; Administration site e-fanamby 2021</span>

@@ -8,90 +8,130 @@
           Categorie
         </div>
         <div class="card-body">
-          <p-menu [model]="items"></p-menu>
+          <i *ngIf="loadingCategorie"  class="pi pi-spin pi-spinner ml-2" ></i>
+          <p-menu *ngIf="!loadingCategorie" [model]="items"></p-menu>
         </div>
       </div>
     </div>
-    <div class="col-sm-6">
-      <p-card header=""  *ngFor="let p of listProgramme" subheader="{{p.libelle}}" styleClass="mb-2 p-0" >
-        <ng-template pTemplate="header">
-        </ng-template>
-        <div class="p-grid" >
-          <div class="p-col-6">
-            {{p.listeEquipes[0].nom_equipe}} vs {{p.listeEquipes[1].nom_equipe}}
-          </div>
-          <div class="p-col-6 text-right">
-            {{p.date_pgm | date:'dd/MM h:mm'}}
+    <div class="col-sm-6" *ngIf="loading" >
+      <i  class="pi pi-spin pi-spinner ml-2" ></i>
+    </div>
+
+    <div class="col-sm-6" *ngIf="!loading" >
+
+      <div *ngIf="!detail">
+        <p-card header=""  *ngFor="let p of listProgramme" styleClass="mb-2 p-0" >
+           <a (click)="detailProgramme(p)"> {{p.libelle}} </a>
+          <div  *ngIf="p.affichageCote.length!=0" class="p-grid">
+            <div class="p-col-6">
+      <!--{{p.listeEquipes[0].nomEquipe}} vs {{p.listeEquipes[1].nomEquipe}}  -->
+            </div>
+            <div class="p-col-6 text-right">
+              {{p.dateHeurePgm | date:'dd/MM h:mm'}}
+            </div>
+            <div class="p-col-4" *ngFor="let c of p.affichageCote[0].cotes" (click)="clickEvent(p,c)">
+              <div class="p-inputgroup">
+                <input type="text" pInputText value="{{c.parametre.libelle}}" disabled [ngClass]="c.inCart ? 'bg-success' : 'white'">
+                <button type="button" pButton pRipple [ngClass]="c.inCart ? 'p-button-success ' : 'b-inf'">{{c.valeur}}</button>
+              </div>
+            </div>
+            <!--           <div class="p-col-4" (click)="clickEvent()">
+              <div class="p-inputgroup">
+                <input type="text" pInputText value="X" disabled [ngClass]="status ? 'white' : 'bg-success'">
+                <button type="button" pButton [ngClass]="status ? 'b-inf' : 'p-button-success'">2,32</button>
+              </div>
+            </div>
+            <div class="p-col-4" (click)="clickEvent()">
+              <div class="p-inputgroup">
+                <input type="text" pInputText value="2" disabled [ngClass]="status ? 'white' : 'bg-success'">
+                <button type="button" pButton pRipple [ngClass]="status ? 'b-inf' : 'p-button-success'">1,65</button>
+              </div>
+            </div>  -->
           </div>
 
-          <div class="p-col-4" *ngFor="let c of p.listeCotes" (click)="clickEvent(p,c)">
-            <div class="p-inputgroup">
-              <input type="text" pInputText value="{{c.type.titre}} ??" disabled [ngClass]="c.inCart ? 'bg-success' : 'white'">
-              <button type="button" pButton pRipple [ngClass]="c.inCart ? 'p-button-success ' : 'b-inf'">{{c.valeur}}</button>
-            </div>
-          </div>
-          <!--           <div class="p-col-4" (click)="clickEvent()">
-            <div class="p-inputgroup">
-              <input type="text" pInputText value="X" disabled [ngClass]="status ? 'white' : 'bg-success'">
-              <button type="button" pButton [ngClass]="status ? 'b-inf' : 'p-button-success'">2,32</button>
-            </div>
-          </div>
-          <div class="p-col-4" (click)="clickEvent()">
-            <div class="p-inputgroup">
-              <input type="text" pInputText value="2" disabled [ngClass]="status ? 'white' : 'bg-success'">
-              <button type="button" pButton pRipple [ngClass]="status ? 'b-inf' : 'p-button-success'">1,65</button>
-            </div>
-          </div>  -->
+          <ng-template pTemplate="footer">
+          </ng-template>
+        </p-card>
+
+      </div>
+      <div *ngIf="detail">
+
+        <div><a  class="p-button-success mr-2" (click)="hideDetail()"><</a>{{selectedProgramme.libelle}}</div>
+        <div class="p-col-6">
+  <!-- {{selectedProgramme.equipes[0].nomEquipe}} vs {{selectedProgramme.equipes[1].nomEquipe}}   -->
         </div>
-        <ng-template pTemplate="footer">
-        </ng-template>
-      </p-card>
+        <div class="p-col-6 text-right">
+          {{selectedProgramme.dateHeurePgm | date:'dd/MM h:mm'}}
+        </div>
+        <p-card *ngFor="let a of selectedProgramme.affichageCote"  subheader=" {{a.typeCote.titre}}" styleClass="mb-2 p-0" >
+          <ng-template pTemplate="header">
+          </ng-template>
+
+          <div  class="p-grid">
+            <div class="p-col-4" *ngFor="let c of a.cotes" (click)="clickEvent(selectedProgramme,c)">
+              <div class="p-inputgroup">
+                <input type="text" pInputText value="{{c.parametre.libelle}}" disabled [ngClass]="c.inCart ? 'bg-success' : 'white'">
+                <button type="button" pButton pRipple [ngClass]="c.inCart ? 'p-button-success ' : 'b-inf'">{{c.valeur}}</button>
+              </div>
+            </div>
+          </div>
+          <ng-template pTemplate="footer">
+          </ng-template>
+        </p-card>
+      </div>
+
     </div>
+
     <div class="col-sm-3">
       <div class="card">
         <div class="card-header cd">
-          <h6> <img src="assets/img/cart.png " class="mr-2 mb-1" width="20">Panier</h6>
+          <h6>
+         <span *ngIf="panier.listPari.length!=0" matBadge="{{panier.listPari.length}}" matBadgeSize="small" matBadgeColor="warn" matBadgeOverlap="true" matBadgePosition="before">
+            <img src="assets/img/cart.png" class="mr-2" width="20">
+          </span><img *ngIf="panier.listPari.length==0" src="assets/img/cart.png" class="mr-2" width="20">Panier</h6>
         </div>
         <div class="card-body">
-        <div *ngIf="listpanier.length==0">
-            <span>Votre Panier est vide</span>
+        <div *ngIf="panier.listPari.length==0">
+            <span> <img src="assets/img/empty-cart.png" class="mr-2" width="20">  Votre panier est vide</span>
         </div>
-        <div *ngIf="listpanier.length!=0">
-          <div *ngFor="let p of listpanier" >
-            <h6>{{p.programme.listeEquipes[0].nom_equipe}} vs {{p.programme.listeEquipes[1].nom_equipe}}</h6>
-            <span style="font-size: 14px;">Resultat du match : {{p.pari.cote.type.titre}}</span>
+        <div *ngIf="panier.listPari.length!=0">
+          <div *ngFor="let p of panier.listPari" >
+       <!-- {{p.cote.programme.listeEquipes[0].nomEquipe}} vs {{p.cote.programme.listeEquipes[1].nomEquipe}} -->     <h6> </h6>
+            <span style="font-size: 14px;">{{p.cote.type.titre}} : {{p.cote.parametre.libelle}} </span>
             <br>
             <table style="font-size: 13px;" class="col-sm-12 pt-1" >
               <thead>
                 <th  class="pr-3"> <span>Cote  </span></th>
                 <th>
-                  <p-inputNumber [(ngModel)]="p.pari.mise"[size]="3" [showButtons]="true" buttonLayout="horizontal" spinnerMode="horizontal"
-                  decrementButtonClass="p-button-success" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"></p-inputNumber></th>
+                  <p-inputNumber [(ngModel)]="p.mise" [size]="3" [showButtons]="true" buttonLayout="horizontal" spinnerMode="horizontal"
+                  decrementButtonClass="p-button-success" incrementButtonClass="p-button-success" [step]="50"  [min]="200" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"></p-inputNumber></th>
                 <th><span  >Gains </span></th>
               </thead>
               <tbody>
-                <td>{{p.pari.cote.valeur}}</td>
+                <td>{{p.cote.valeur}}</td>
                 <td></td>
-                <td> <input class="gain"  type="number" [(ngModel)]="p.pari.mise*p.pari.cote.valeur"> Ar</td>
+                <td> {{p.getGain()}} Ar</td>
               </tbody>
             </table>
             <hr>
           </div>
         </div>
         <div>
-          <table>
-            <tbody>
-              <tr>
-                <td> Mise totale :</td>
-                <td>statique</td>
-              </tr>
-              <tr>
-                <td> Gain total :</td>
-                <td>{{total}}  <input class="gain"  type="number" [(ngModel)]="total"></td>
-              </tr>
-            </tbody>
-          </table>
-          <button type="button" pButton (click)="parier()" pRipple class="btn btn-warning"><img src="assets/img/pari_24.png " class="mr-2 mb-1">Parier</button>
+          <div *ngIf="panier.listPari.length!=0">
+            <table>
+              <tbody>
+                <tr>
+                  <td>Mise totale :</td>
+                  <td>{{panier.miseTotal()}}</td>
+                </tr>
+                <tr>
+                  <td>Gain total :</td>
+                  <td>{{panier.gainTotal()}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <button type="button" style="width:100%;"  (click)="parier()" pButton pRipple class="p-button-secondary"><img src="assets/img/pari_24.png " class="mr-2 mb-1">Parier</button>
+          </div>
         </div>
         <hr>
         </div>

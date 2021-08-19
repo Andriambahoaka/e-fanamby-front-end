@@ -1,0 +1,115 @@
+<app-nav></app-nav>
+<div class="py-4 px-4">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-menu-compte></app-menu-compte>
+    </div>
+    <div class="col-sm-10">
+      <!---------------------------------INFORMATION USER---------------------------------------------------------------->
+      <div class="main-content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-body">
+                    <form (ngSubmit)="onValidEditUser()" [formGroup]="userForm">
+                      <fieldset>
+                        <legend>
+                          <h5><i class="pi pi-fw pi-info mr-2"></i>Mes Infos</h5>
+                        </legend>
+                        <br>
+
+                        <div *ngIf="display" class="p-fluid p-formgrid p-grid">
+                          <div class="p-field p-col-12">
+                            <label for="nom" class="p-col-12 p-mb-2 p-md-12 p-mb-md-0">Pseudo:</label>
+                            <div class="p-col-12 p-md-10">
+                              <input formControlName="username" id="username" value="{{username}}" type="text"
+                                pInputText>
+                            </div>
+                          </div>
+                          <div class="p-field p-col-12">
+                            <label for="email" class="p-col-12 p-mb-2 p-md-12 p-mb-md-0">E-mail:</label>
+                            <div class="p-col-12 p-md-10">
+                              <input formControlName="email" id="email" type="email" value="{{email}}" pInputText>
+                            </div>
+                          </div>
+                          <!--                           <div class="p-field p-col-12">
+                            <label for="email" class="p-col-12 p-mb-2 p-md-12 p-mb-md-0">Date de Naissance :</label>
+                            <div class="p-col-12 p-md-10">
+                              <input formControlName="dateNaissance" id="dateNaissance" type="text"
+                                value="{{dateNaissance}}" pInputText>
+                            </div>
+                          </div> -->
+
+                          <div class="p-field p-col-12">
+                            <label for="email" class="p-col-12 p-mb-2 p-md-12 p-mb-md-0">Tapez votre mot de passe
+                              :</label>
+                            <div class="p-col-12 p-md-10">
+                              <input formControlName="password" id="password" type="password" pInputText>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="!display" class="p-fluid">
+                          <div class="p-grid">
+                            <label class="p-col-3 text-left text-info"><i class="pi pi-info mr-2"></i>Pseudo :</label>
+                            <label class="p-col-2 "> {{user.username}} </label>
+                          </div>
+                          <hr>
+                          <div class="p-grid">
+                            <label class="p-col-3 text-left text-info"> <i class="pi pi-envelope mr-2"></i>Email :</label>
+                            <label class="p-col-2"> {{user.email}} </label>
+                          </div>
+                          <hr>
+                        </div>
+                      </fieldset>
+
+                      <div *ngIf="display" class="text-center">
+                        <button pButton pRipple (click)="displayUpdate()" class="p-button-raised p-button-secondary mr-2"><i
+                            class="pi pi-fw pi-times mr-2"></i>Annuler</button>
+                        <button pButton pRipple [disabled]="userForm.invalid"
+                          class="p-button-raised p-button-success"><i
+                            class="pi pi-fw pi-pencil mr-2"></i>Valider</button>
+                      </div>
+                    </form>
+                    <div *ngIf="!display" class="text-center">
+                      <button pButton pRipple (click)="displayUpdate()" class="p-button-raised p-button-secondary"><i
+                          class="pi pi-fw pi-pencil mr-2"></i>Modifier</button>
+                    </div>
+                    <p-toast position="bottom-right"></p-toast>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+
+              <!--
+                  <div class="col-md-4">
+                      <div class="card card-profile">
+                          <div class="card-avatar">
+                              <a href="javascript:void(0)">
+                                  <img class="img" src="./assets/img/faces/marc.jpg" />
+                              </a>
+                          </div>
+                          <div class="card-body">
+                              <h6 class="card-category text-gray">CEO / Co-Founder</h6>
+                              <h4 class="card-title">Alec Thompson</h4>
+                              <p class="card-description">
+                                  Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+                              </p>
+                              <a href="javascript:void(0)" class="btn btn-danger btn-round">Follow</a>
+                          </div>
+                      </div>
+                  </div>
+                   -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>

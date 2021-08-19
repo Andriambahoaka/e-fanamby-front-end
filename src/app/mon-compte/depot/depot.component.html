@@ -1,0 +1,30 @@
+
+<app-nav></app-nav>
+<div class="py-4 px-4">
+  <div class="row">
+    <div class="col-sm-2">
+  <app-menu-compte></app-menu-compte>
+    </div>
+    <div class="col-sm-10">
+      <div class="main-content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h5><i class="pi pi-fw pi-paypal mr-2"></i>Faire un depot</h5>
+                    <div class="p-grid">
+                      <label class="p-col-3 text-left text-info"><i class="pi pi-info mr-2"></i>Mon solde :</label>
+                      <label class="p-col-2 "> {{user.solde}} </label>
+                      <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

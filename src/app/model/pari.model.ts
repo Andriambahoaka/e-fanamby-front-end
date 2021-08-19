@@ -7,6 +7,14 @@ export class Pari{
   mise:number=200;
   cote:Cote;
   gain:number;
-  joueur:Utilisateur;
+  utilisateur:Utilisateur;
+  statut:number=0;
+  statutText:string[];
+
+
+  getGain():number{
+      return this.mise*this.cote.valeur;
+  }
+
 
 }

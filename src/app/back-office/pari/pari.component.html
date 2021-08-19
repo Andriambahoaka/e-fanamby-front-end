@@ -21,7 +21,7 @@
             <div class="card-header py-3">
               <!--   <h5 class="m-0 text-dark">Type Operation</h5>-->
               <div class="row">
-                <h6 class="m-0 font-weight-bold col-sm-10">Parametre des cotes</h6>
+                <h6 class="m-0 font-weight-bold col-sm-10">Listes des paris</h6>
                 <!---               <a href="create" class="btn btn-success btn-sm col-sm-1">
                   Ajouter <i class="fas fa-plus"></i>
                 </a>-->
@@ -29,22 +29,22 @@
               </div>
             </div>
             <div class="card-body">
-                <div class="table-responsive col-sm-6" >
-                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <div class="table table-responsive" >
+                  <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead>
-                      <tr>
-                        <th>Parieur</th>
-                        <th>Date du pari</th>
-                        <th>Programme</th>
-                        <th>Mise</th>
-                        <th>Gain</th>
+                      <tr class="bg-info text-white">
+                        <td>Parieur</td>
+                        <td>Date du pari</td>
+                        <td>Programme</td>
+                        <td>Mise</td>
+                        <td>Gain</td>
                       </tr>
                     </thead>
                     <tbody *ngIf="listPari.length!=0">
                       <tr   *ngFor="let p of listPari">
-                        <td>{{p.joueur.nom}}</td>
-                        <td>{{p.date}}</td>
-                        <td>{{p.cote.programme.date_pgm}}</td>
+                        <td>{{p.utilisateur.username}}</td>
+                        <td>{{p.date | date:'dd/MM/yyyy'}}</td>
+                        <td>{{p.cote.programme.dateHeurePgm | date:'dd/MM/yyyy'}}</td>
                         <td>{{p.mise}}</td>
                         <td>{{p.gain}}</td>
                       </tr>

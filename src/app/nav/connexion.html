@@ -1,31 +1,32 @@
 <h5 class="text-center"> <i class="pi pi-info"></i> Se connecter</h5>
-<br>
+<p-messages [(value)]="msgs" styleClass="mr-4 mb-4 diso"></p-messages>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="p-grid" style="width: 100%;">
+
     <div class="p-inputgroup mb-2">
       <span class="p-inputgroup-addon"><i class="pi pi-envelope"></i></span>
-      <input type="email" pInputText placeholder="Email" formControlName="email" name="email" [(ngModel)]="email" required>
+      <input type="email" pInputText placeholder="Email" [disabled]="loading" formControlName="email" name="email" [(ngModel)]="email" required>
     </div>
     <div class="p-inputgroup pt-0 pb-0 " *ngIf="isFieldInvalid('email')">
       <small class="p-error"><img src="assets/img/warning.png" class="mr-1 mb-1">Adresse email invalide</small>
     </div>
     <div class="p-inputgroup mb-2 mt-2">
       <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
-      <input type="password" pInputText placeholder="Mot de passe" formControlName="mdp" name="mdp" [(ngModel)]="mdp" required>
+      <input type="password" [disabled]="loading" pInputText placeholder="Mot de passe" formControlName="mdp" name="mdp" [(ngModel)]="mdp" required>
     </div>
     <div class="p-inputgroup pt-0 pb-0 " *ngIf="isFieldInvalid('mdp')">
       <small class="p-error"><img src="assets/img/warning.png" class="mr-1 mb-1">Insérez le mot de passe</small>
     </div>
     <div class="p-inputgroup mt-2">
-      <button pButton type="button" class="p-button-raised p-button-primary text-center" style="width: 100%;"
-        type="submit">Connexion<i class="pi pi-fw pi-chevron-right ml-2 "></i></button>
+      <button pButton type="button" [disabled]="loading" class="p-button-raised p-button-primary text-center" style="width: 100%;"
+        type="submit">Connexion<i  *ngIf="!loading" class="pi pi-fw pi-chevron-right ml-2 "></i> <i *ngIf="loading"  class="pi pi-spin pi-spinner ml-2" ></i></button>
     </div>
   </div>
 </form>
 <hr>
 <div class="p-grid">
   <div class="p-inputgroup">
-    <button pButton type="button" class="p-button-raised p-button-warning" style="width: 97%; text-align: center;"
+    <button pButton type="button" [disabled]="loading" class="p-button-raised p-button-warning" style="width: 97%; text-align: center;"
       [routerLink]="'/inscription'">Créer un compte</button>
   </div>
   <!--

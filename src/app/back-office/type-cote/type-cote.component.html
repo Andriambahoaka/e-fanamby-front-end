@@ -29,28 +29,38 @@
               </div>
             </div>
             <div class="card-body">
+              <p-toast></p-toast>
               <div class="row">
                 <div class="col-sm-6">
-                  <form (ngSubmit)="ajouter()">
+                  <form [formGroup]="formGroup" #formType (ngSubmit)="ajouter();formType.reset();">
                     <div class="input-group" style="margin-bottom: 15px;">
-                      <label class="col-sm-2">Titre </label>
-                      <input type="text" value="" name="titre" [(ngModel)]="titre" class="form-control col-sm-6"
-                        required="" placeholder="titre..." aria-label="Title" aria-describedby="basic-addon2">
+                      <label class="col-sm-3">Titre : </label>
+                      <input type="text" value="" name="titre" [(ngModel)]="titre" class="form-control col-sm-9"
+                        required="" formControlName="titre" placeholder="Inserez le titre..." aria-label="Title" aria-describedby="basic-addon2">
                     </div>
-
+                    <div class="input-group" style="margin-bottom: 15px;">
+                      <label class="col-sm-3">Modèle :</label>
+                      <p-listbox [options]="listParametreCote" [(ngModel)]="selectedParametres" formControlName="selectedParametres" [metaKeySelection]="false" [checkbox]="true"
+                      [filter]="true" [multiple]="true" optionLabel="libelle" [listStyle]="{'max-height':'200px'}"
+                      [style]="{'width':'21.5rem'}">
+                      <ng-template let-p pTemplate="item">
+                        <div class="country-item">
+                          <div>{{p.libelle}}</div>
+                        </div>
+                      </ng-template>
+                    </p-listbox>
+                    </div>
                     <div class="input-group" style="margin-bottom: 15px;">
                       <button class="btn btn-success offset-2" type="submit"><i class="pi pi-fw pi-plus mr2"></i>Ajouter</button>
                     </div>
                   </form>
-
-
                 </div>
                 <div class="table-responsive col-sm-6" *ngIf="listTypecote.length!=0">
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                       <tr>
                         <th>Titre</th>
-                        <th></th>
+                        <th>Modèle</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -59,6 +69,7 @@
                         <!---                         <th><a class="btn btn-info">
                             <i class="pi pi-fw pi-pencil"></i>
                           </a></th>   -->
+                          <td><span *ngFor="let param of p.modele">{{param.libelle}} / </span></td>
 
                         <th><a class="btn btn-danger"  (click)="supprimer(p)">
 

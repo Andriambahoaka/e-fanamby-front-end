@@ -1,0 +1,79 @@
+<div id="wrapper">
+  <app-menu></app-menu>
+    <!-- Sidebar -->
+
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+      <!-- Topbar -->
+      <app-nav-menu></app-nav-menu>
+      <!-- End of Topbar -->
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <!--   <h5 class="m-0 text-dark">Type Operation</h5>-->
+              <div class="row">
+                <h6 *ngIf="!edit" class="m-0 font-weight-bold"><img src="assets/img/add.png" class="mr-2" alt="Icon Add">Ajouter une catégorie  <i *ngIf="loading"  class="pi pi-spin pi-spinner ml-2" ></i></h6>
+                <h6 *ngIf="edit" class="m-0 font-weight-bold"><img src="assets/img/edit.png" class="mr-2" alt="Icon Edit">Modifier une catégorie <i *ngIf="loading"  class="pi pi-spin pi-spinner ml-2" ></i></h6>
+                <p-toast></p-toast>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                  <form  ngForm #formCategorie (ngSubmit)="ajouter()">
+                    <div class="input-group" style="margin-bottom: 15px;">
+                      <label class="col-sm-6">Nom : </label>
+                      <input type="text" value="{{categorie.nomCateg}}" name="nomCateg" [(ngModel)]="categorie.nomCateg" class="form-control col-sm-6"
+                        required="" placeholder="Nom...." aria-label="Title" aria-describedby="basic-addon2">
+                    </div>
+                    <div class="input-group" style="margin-bottom: 15px;">
+                      <label class="col-sm-5">Choisir parent (facultatif) : </label>
+                      <p-listbox class="col-sm-6" [options]="listCategorie" [(ngModel)]="parent" name="parent"[metaKeySelection]="false" [checkbox]="true"
+                      [filter]="true" [multiple]="false" optionLabel="nomCateg" [listStyle]="{'max-height':'200px'}"
+                      [style]="{'width':'21.5rem'}">
+                      <ng-template let-p pTemplate="item">
+                        <div class="country-item">
+                          <div>{{p.nomCateg}}</div>
+                        </div>
+                      </ng-template>
+                    </p-listbox>
+
+                    </div>
+
+                  <div class="input-group mt-2">
+                    <button *ngIf="!edit" [disabled]="succes" class="btn btn-success mr-2 ml-2" type="submit"><i  *ngIf="!loadingAjout" class="pi pi-fw pi-plus mr-2"></i> <i *ngIf="loadingAjout"  class="pi pi-spin pi-spinner mr-2" ></i>Ajouter</button>
+                    <button *ngIf="edit" [disabled]="succes" class="btn btn-success mr-2 ml-2" type="submit"><i *ngIf="!loadingAjout" class="pi pi-fw pi-pencil mr-2"></i><i *ngIf="loadingAjout"  class="pi pi-spin pi-spinner mr-2" ></i>Modifier</button>
+                    <button *ngIf="succes"  [routerLink]="'/admin/equipe'" class="btn btn-secondary"><i class="pi pi-fw pi-list mr-2"></i>Voir liste</button>
+                  </div>
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Administration site e-fanamby 2021</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Operation } from 'src/app/model/operation.model';
 import { NavService } from 'src/app/service/nav.service';
 import { OperationService } from 'src/app/service/operation.service';
+import { BooleanLiteral } from 'typescript';
 
 
 @Component({
@@ -17,12 +18,16 @@ export class OperationComponent implements OnInit {
 
   userConnected: any;
   listOperation:Operation[]=[];
+  loading:Boolean=false;
 
 
   ngOnInit(): void {
+    this.loading=true;
     this.userConnected = JSON.parse(localStorage.getItem('userConnected') || '{}');
     this.operaService.get().subscribe(data=>{
+      console.log(data);
       this.listOperation=data;
+      this.loading=false;
     });
   }
 

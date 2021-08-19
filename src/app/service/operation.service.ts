@@ -20,6 +20,10 @@ export class OperationService {
     return this.http.get<Operation[]>(this.uri);
   }
 
+  getByJoueur(id:number):Observable<any>{
+    return this.http.get<Operation[]>(this.uri+"/joueur/"+id);
+  }
+
   update(m: Operation):Observable<any>{
     return this.http.put(this.uri,m);
   }

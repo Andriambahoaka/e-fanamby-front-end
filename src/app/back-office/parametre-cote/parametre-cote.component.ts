@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ParametreCote } from 'src/app/model/parametre-cote.model';
 import { ParametreCoteService } from 'src/app/service/parametre-cote.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-parametre-cote',
   templateUrl: './parametre-cote.component.html',
+  providers:[MessageService],
   styleUrls: ['../back-office.css']
 })
 export class ParametreCoteComponent implements OnInit {
 
-  constructor(private parametreCService: ParametreCoteService) { }
+  constructor(private parametreCService: ParametreCoteService,private messageService:MessageService) { }
   libelle: string;
   listParametreCote:ParametreCote[]=[];
 
@@ -21,13 +23,19 @@ export class ParametreCoteComponent implements OnInit {
   }
 
   ajouter() {
-    var pc = new ParametreCote();
-    pc.libelle = this.libelle;
-    this.parametreCService.post(pc).subscribe(response => {
-      console.log(response);
-      //window.location.reload();
-    });
-    this.listParametreCote.push(pc);
+    if(!this.libelle){
+      this.messageService.add({ severity: 'error', summary: 'Veuillez insérez un libélle', detail: "" });
+    }else{
+      var pc = new ParametreCote();
+      pc.libelle = this.libelle;
+      this.parametreCService.post(pc).subscribe(response => {
+        console.log(response);
+        //window.location.reload();
+        this.messageService.add({ severity: 'success', summary: 'Ajout parametre avec succès !!', detail: "" });
+
+      });
+      this.listParametreCote.push(pc);
+    }
   }
 
   supprimer(typeOp:ParametreCote){

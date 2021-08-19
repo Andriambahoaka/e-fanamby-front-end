@@ -1,0 +1,68 @@
+<div id="wrapper">
+  <app-menu></app-menu>
+    <!-- Sidebar -->
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div>
+
+      <!-- Topbar -->
+      <app-nav-menu></app-nav-menu>
+      <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <p-toast></p-toast>
+              <div class="row">
+                <h6 class="m-0 font-weight-bold col-sm-9"><img src="assets/img/liste.png" class="mr-2" alt="Icon liste"> Liste des utilisateurs <i *ngIf="loading"  class="pi pi-spin pi-spinner ml-2" ></i></h6>
+              </div>
+            </div>
+            <div class="card-body" *ngIf="!loading">
+                <div class="table-responsive" >
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>Nom</th>
+                        <th>Date de naissance</th>
+                        <th>Role</th>
+                        <th>Email</th>
+                        <th>Date d'inscription</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let e of listeUtilisateur">
+                        <td>{{e.username}}</td>
+                        <td>{{e.dateNaissance | date:'dd/MM/yyyy'}}</td>
+                        <td><span *ngFor="let r of e.roles">{{e}} / </span></td>
+                        <td>{{e.email}}</td>
+                        <td>{{e.createdAt | date:'dd/MM/yyyy h:mm'}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white" *ngIf="!loading">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Administration site e-fanamby 2021</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+    </div>
+    <!-- End of Content Wrapper -->
+  </div>
+  <!-- End of Page Wrapper -->
+

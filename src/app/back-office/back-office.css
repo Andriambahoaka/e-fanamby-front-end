@@ -9885,6 +9885,11 @@ a:focus {
   background-image: linear-gradient(180deg, #36b9cc 10%, #258391 100%);
   background-size: cover;
 }
+.bg-gradient-fanamby {
+  background-color: #1f2d49;
+  background-image: linear-gradient(180deg, #36b9cc 10%, #258391 100%);
+  background-size: cover;
+}
 
 .bg-gradient-warning {
   background-color: #f6c23e;

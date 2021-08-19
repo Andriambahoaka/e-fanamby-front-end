@@ -1,0 +1,96 @@
+<div id="wrapper">
+  <app-menu></app-menu>
+  <!-- Sidebar -->
+
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+      <!-- Topbar -->
+      <app-nav-menu></app-nav-menu>
+      <!-- End of Topbar -->
+
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+        <p-toast></p-toast>
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <!--   <h5 class="m-0 text-dark">Type Operation</h5>-->
+            <div class="row">
+              <h6 class="m-0 font-weight-bold col-sm-10">Résultat <i *ngIf="loading"  class="pi pi-spin pi-spinner ml-2" ></i></h6>
+              <!---               <a href="create" class="btn btn-success btn-sm col-sm-1">
+                  Ajouter <i class="fas fa-plus"></i>
+                </a>-->
+
+            </div>
+          </div>
+          <div class="card-body" *ngIf="!loading">
+            <form (ngSubmit)="publier()">
+              <div class="row">
+                <div class=" col-sm-8">
+                  <div class="input-group">
+                    <label class="col-sm-3">Programme : </label>
+                    <label class="col-sm-3">{{programme.libelle}}</label>
+                  </div>
+                  <br>
+                  <h5>Equipes</h5>
+                  {{programme.equipes[0].nomEquipe}} vs {{programme.equipes[1].nomEquipe}}
+                  <hr>
+                  <h5>Cotes</h5>
+                  <!--                   <div class="p-grid">
+                    <div *ngFor="let c of programme.listeCotes" >
+                      <p-radioButton name="c"  [value]="c"  [(ngModel)]="selectedCotes[0]" inputId="c._id"></p-radioButton>
+                      <label for="city1">{{c.valeur}}</label>
+                    </div>
+                  </div>   -->
+
+
+                  <div class="p-col-6 text-right">
+                    {{programme.dateHeurePgm | date:'dd/MM h:mm'}}
+                  </div>
+               <div class="card mb-2" *ngFor="let a of programme.affichageCote;let i = index">
+                    <div class="card-header">{{a.typeCote.titre}}</div>
+                    <div class="card-body">
+                      <div  class="p-grid">
+                        <div class="p-field-radiobutton p-col-3" *ngFor="let c of a.cotes">
+                       <!--- <p-checkbox formControlName="selectedCotes" name="selectedCotes" inputId="c._id" [(ngModel)]="selectedCotes" ></p-checkbox> -->
+                          <p-radioButton name="c{{i}}"  [value]="c"  [(ngModel)]="selectedCotes[i]" inputId="c._id"></p-radioButton>
+                          <label for="c._id">{{c.parametre.libelle}} : {{c.valeur}}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="input-group" style="margin-bottom: 15px;" >
+                    <button class="btn btn-success" type="submit"><i class="pi pi-fw pi-save mr-2"></i>Publier</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy; Administration site e-fanamby 2021</span>
+        </div>
+      </div>
+    </footer>
+    <!-- End of Footer -->
+
+  </div>
+  <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->

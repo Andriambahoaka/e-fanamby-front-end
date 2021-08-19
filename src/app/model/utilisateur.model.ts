@@ -1,14 +1,21 @@
 import { TypeUtilisateur } from "./type-utilisateur.model";
 
 export class Utilisateur{
-   id_utilisateur:number;
-   nom:string;
-   prenom:string;
+   id:number;
+   username:string;
+   idParrain:number;
    email: string;
-   pseudo:string;
-   dateNaissance:Date;
    password :string;
+   dateNaissance:Date;
+   roles:String[];
+   token:String;
+  // nom:string;
+   //prenom:string;
+
+
+  // pseudo:string;
    solde:number;
-   created_at:Date;
-   updated_at:Date;
+   codeParrain:string;
+   createdAt:Date;
+   //updated_at:Date;
 }

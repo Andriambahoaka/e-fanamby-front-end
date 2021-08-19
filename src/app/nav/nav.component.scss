@@ -1,6 +1,6 @@
-.sidenav-container {
+/*.sidenav-container {
     height: 100%;
-}
+}*/
 
 .example-spacer {
   flex: 1 1 auto;
@@ -16,7 +16,7 @@
 .mat-toolbar.mat-primary {
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 1000;
 }
 
 .titre {
@@ -42,6 +42,14 @@
 
 
 
+.diso{
+  width:10px;
+  height: 10px;
+}
 
 
-
+.fill-remaining-space {
+  /*This fills the remaining space, by using flexbox.
+ Every toolbar row uses a flexbox row layout. */
+ flex: 1 1 auto;
+}
