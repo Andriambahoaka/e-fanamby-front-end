@@ -9,5 +9,6 @@ export const environment = {
     messagingSenderId: "171413793893",
     appId: "1:171413793893:web:a1ff8cdff6f306a6b82a8c",
     measurementId: "G-3MT6TFTHJL"
-  }
+  },
+  host:"https://pari-rest.herokuapp.com/api"
 };
