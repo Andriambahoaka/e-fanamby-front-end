@@ -48,9 +48,9 @@ export class CategorieComponent implements OnInit {
         });*/
     },error=>{
       console.log(error.status); //401 Unauthorized
-      if(error.status==409){
+      if(error.status==409){ // Conflict
         console.log("Ato");
-        this.messageService.add({severity:'error', summary:'Echec de suprression', detail:'Impossible de supprimé '+error.status});
+        this.messageService.add({severity:'error', summary:'Echec de suprression', detail:'Cette catégorie comporte déjà des programmes'});
       }else{
         this.messageService.add({severity:'error', summary:'Réessayez', detail:'Erreur de suprression '+error.status});
       }

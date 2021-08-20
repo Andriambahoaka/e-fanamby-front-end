@@ -20,6 +20,7 @@ export class DepotComponent implements OnInit {
   }
 
   private initConfig(): void {
+    /*
     this.payPalConfig = {
     currency: 'EUR',
     clientId: 'AXFUgju-dxGSL_Egew98WzMUnXze0FLCgvx_FIf2yFhkUCrLDjOvns0di3fDJfD4GbhutYtnnk7EfEbj',
@@ -78,5 +79,5 @@ export class DepotComponent implements OnInit {
       console.log('onClick', data, actions);
     },
   };
-  }
+*/  }
 }

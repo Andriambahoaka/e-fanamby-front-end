@@ -43,7 +43,7 @@ import {CalendarModule} from 'primeng/calendar';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {MenuModule} from 'primeng/menu';
-import { Routes } from '@angular/router';
+import { Routes,RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConnexionDialog, GuideDialog, NavComponent } from './nav/nav.component';
 import { CategorieComponent } from './categorie/categorie.component';
@@ -68,17 +68,16 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { MessagingService } from './service/messaging.service';
 import { AsyncPipe } from '@angular/common';
-import { ServiceWorkerModule } from '@angular/service-worker';
 //import { NgxPayPalModule } from 'ngx-paypal';
 import { NgxPayPalModule } from '../../projects/ngx-paypal-lib/src/public_api';
 
-import {FlexLayoutModule} from "@angular/flex-layout";
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import { MonCompteComponent } from './mon-compte/mon-compte.component';
 import { MesOperationsComponent } from './mon-compte/mes-operations/mes-operations.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MenuCompteComponent } from './mon-compte/menu-compte/menu-compte.component';
 import { DepotComponent } from './mon-compte/depot/depot.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 //import { AuthGuard } from './service/auth.guard';
 
 
@@ -116,8 +115,7 @@ const routes: Routes = [
     MenubarModule,InputNumberModule,MatDialogModule,MatBadgeModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    AngularFireMessagingModule,
-    FlexLayoutModule,BreadcrumbModule,
+    AngularFireMessagingModule,BreadcrumbModule,
     MatProgressBarModule,NgxPayPalModule,
     AngularFireModule.initializeApp(environment.firebase),
     ServiceWorkerModule.register('ngsw-worker.js', {

@@ -30,7 +30,7 @@ export class MesParisComponent implements OnInit {
             console.log(p.cote);
            // console.log(p.statutText=this.pariservice.statutText(p.cote.statut));
           //  console.log(p.cote.idProgramme);
-            p.cote.programme=this.programmeservice.getProgrammeByIdStatique(p.cote.idProgramme);
+          //  p.cote.programme=this.programmeservice.getProgrammeByIdStatique(p.cote.idProgramme);
           });
           //console.log(pari);
     });

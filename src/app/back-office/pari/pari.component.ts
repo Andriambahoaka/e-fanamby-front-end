@@ -22,7 +22,7 @@ export class PariComponent implements OnInit {
       this.listPari.forEach(p=>{
         // console.log(p.cote);
        //  console.log(p.cote.idProgramme);
-         p.cote.programme=this.programmeservice.getProgrammeByIdStatique(p.cote.idProgramme);
+        // p.cote.programme=this.programmeservice.getProgrammeByIdStatique(p.cote.idProgramme);
        });
      });
   }

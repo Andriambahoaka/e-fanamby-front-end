@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Pari } from 'src/app/model/pari.model';
 import { TypeOperationService } from 'src/app/service/type-operation.service';
 import { TypeOperation } from 'src/app/model/type-operation.model';
+import { Equipe } from 'src/app/model/equipe.model';
 
 @Component({
   selector: 'app-resultat',
@@ -34,10 +35,11 @@ export class ResultatComponent implements OnInit {
   formGroup: FormGroup;
   typeOperation: any;
   loading:boolean=false;
+  onPublish:boolean=false;
 
   ngOnInit(): void {
     console.log("route",this.route.snapshot.params.id);
-    this.loading=true;
+
     this.getProgrammeById();
     this.formGroup = this._formBuilder.group({
       selectedCotes: ['', Validators.required]
@@ -46,28 +48,41 @@ export class ResultatComponent implements OnInit {
     this.typeOperationService.get().subscribe(t => {
       this.typeOperation = this.typeOperationService.strEnum(t);
     });
-    this.loading=false;
+
   }
 
 
 
+
   getProgrammeById() {
+    this.loading=true;
     const id: number = this.route.snapshot.params.id;
 
     //this.programme = this.pservice.getProgrammeByIdStatique(id);
-    this.pservice.getProgrammeWithEquipe(id).subscribe(res=>{
+    this.pservice.getProgrammeById(id).subscribe(res=>{
        console.log(res);
       this.programme=res;
       console.log(res["equipes"]);
-      let pr=new Programme();
+      let pe=res["equipes"];
+
+
+
+     // let pr=new Programme();
+      pe.forEach((element:any) => {
+        this.programme.equipes.push(element["equipe"]);
+
+      });
       console.log("getProgrammeById",id);
       console.log("programme",this.programme);
-
       this.coteService.getCotesByProgramme(id).subscribe(data => {
         this.programme.listeCotes = data;
         this.pservice.populateAffiche(this.programme);
       });
+      this.loading=false;
 
+    },error=>{
+      console.log(error.status);
+      this.messageService.add({ severity: 'error', summary: 'Réessayez', detail: "Erreur pendant l'affichage du programme "+error.status });
     });
 
     // console.log(this.programme);
@@ -79,24 +94,33 @@ export class ResultatComponent implements OnInit {
     });*/
   }
 
+
+
   publier() {
     // console.log(this.selectedCotes[0]);
+    this.onPublish=true;
     if (this.selectedCotes.length != this.programme.affichageCote.length) {
       //console.log("sur");
       this.messageService.add({ severity: 'error', summary: 'Selectionnez tous les gagnants!!', detail: "Par type de cote" });
+      this.onPublish=false;
     } else {
       //console.log("cote gagnant", this.selectedCotes);
       this.selectedCotes.forEach(cote => {
         this.operationParCote(cote);
-        /*
-        let index = this.programme.listeCotes.map(x => x._id).indexOf(cote._id);
-        this.programme.listeCotes.splice(index, 1);*/
         this.setStatutCote(cote);
       });
-      //console.log("cote perdant", this.programme.listeCotes);
-     /* this.programme.listeCotes.forEach(perdant => {
-        this.setStatutCote(perdant, 2);
-      });*/
+      this.programme.etat.id=4;
+      console.log(this.programme);
+      this.pservice.updateProgramme(this.programme).subscribe(res=>{
+        console.log("response update",res);
+        this.router.navigate(['/admin/programme'])
+        .then(() => {
+          window.location.reload();
+        });
+      },error=>{
+        console.log(error.status);
+        this.messageService.add({severity:'error', summary:'Erreur', detail:'code '+error.status});
+      });
     }
   }
 
@@ -110,7 +134,6 @@ export class ResultatComponent implements OnInit {
     operation.solde = p.utilisateur.solde + p.gain;
     operation.created_at = new Date();
     console.log("operation", operation);
-
     this.operationService.post(operation).subscribe(res => {
       console.log(res);
     });

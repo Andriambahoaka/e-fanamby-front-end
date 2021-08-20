@@ -1,59 +1,102 @@
 <div id="wrapper">
   <app-menu></app-menu>
-    <!-- Sidebar -->
+  <!-- Sidebar -->
 
-    <!-- End of Sidebar -->
+  <!-- End of Sidebar -->
 
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
 
-      <!-- Main Content -->
-      <div>
+    <!-- Main Content -->
+    <div>
 
       <!-- Topbar -->
       <app-nav-menu></app-nav-menu>
       <!-- End of Topbar -->
 
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-          <!-- DataTales Example -->
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <!--   <h5 class="m-0 text-dark">Type Operation</h5>-->
-              <div class="row">
-                <h6 class="m-0 font-weight-bold col-sm-9"><img src="assets/img/liste.png" class="mr-2" alt="Icon liste">Liste des programmes <i *ngIf="loading"  class="pi pi-spin pi-spinner ml-2" ></i></h6>
-                 <a [routerLink]="'/admin/add/programme'" class="btn btn-success btn-sm col-sm-2">
-                  Ajouter <i class="pi pi-fw pi-plus"></i>
-                </a>
-              </div>
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <!--   <h5 class="m-0 text-dark">Type Operation</h5>-->
+            <div class="row">
+              <h6 class="m-0 font-weight-bold col-sm-6"><img src="assets/img/liste.png" class="mr-2"
+                  alt="Icon liste">Liste des programmes <i *ngIf="loading" class="pi pi-spin pi-spinner ml-2"></i></h6>
+
+              <a [routerLink]="'/admin/add/programme'" class="btn btn-success btn-sm col-sm-2">
+                Ajouter <i class="pi pi-fw pi-plus"></i>
+              </a>
             </div>
-            <div class="card-body" *ngIf="!loading">
-                <div class="table-responsive" >
-                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                      <tr>
-                        <th>Libelle</th>
-                        <th>Date</th>
-                        <th>Heure</th>
-                        <th>Cotes</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let e of listProgramme">
-                        <td>{{e.libelle}}</td>
-                        <td>{{e.dateHeurePgm | date:'dd/MM/yyyy'}}</td>
-                        <td>{{e.dateHeurePgm | date: 'h:mm'}}</td>
-                        <td *ngIf="e.etat.id==2"><span *ngFor="let c of e.listeCotes">{{c.valeur +" : "+ c.type.titre+"   / "}}</span></td>
-                        <td *ngIf="e.etat.id==1"><img src="assets/img/empty.png" class="mr-2">Liste cote vide </td>
-                        <td>
-                          <div *ngIf="e.etat.id==1"><button class="btn btn-info mr-2" pTooltip="Attribuer des cotes" tooltipPosition="top" (click)="edit(e.id)"><i class="pi pi-fw pi-plus"></i></button><button class="btn btn-danger" pTooltip="Supprimer le programme" tooltipPosition="top" (click)="delete(e)"><i class="pi pi-fw pi-trash"></i></button></div>
-                          <div *ngIf="e.etat.id==2"><button class="btn btn-success mr-2" pTooltip="Publier Résultat" tooltipPosition="top" (click)="goToResultat(e.id)"><i class="pi pi-fw pi-check-circle"></i></button></div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+          </div>
+          <div class="card-body" *ngIf="!loading">
+            <div class="row">
+              <div class="col-sm-12 col-md-6"><label>Montrer
+                <select [(ngModel)]="size" (change)="paginate(page,size)"
+                    class="custom-select custom-select-sm form-control form-control-sm">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                  </select> </label>
+                 </div>
+              <div class="col-sm-12 col-md-6">
+                <label>Recherche:<input [(ngModel)]="search"
+                      class="form-control form-control-sm"></label>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Libelle</th>
+                      <th>Date</th>
+                      <th>Heure</th>
+                      <th>Cotes</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let e of listProgramme">
+                      <td>{{e.libelle}}</td>
+                      <td>{{e.dateHeurePgm | date:'dd/MM/yyyy'}}</td>
+                      <td>{{e.dateHeurePgm | date: 'h:mm'}}</td>
+                      <td *ngIf="e.etat.id>=2"><span *ngFor="let c of e.listeCotes">{{c.valeur +" : "+ c.type.titre+"
+                          / "}}</span></td>
+                      <td *ngIf="e.etat.id==1"><img src="assets/img/empty.png" class="mr-2">Liste cote vide </td>
+                      <td>
+                        <div *ngIf="e.etat.id==1"><button class="btn btn-info mr-2" pTooltip="Attribuer des cotes"
+                            tooltipPosition="top" (click)="edit(e.id)"><i class="pi pi-fw pi-plus"></i></button><button
+                            class="btn btn-danger" pTooltip="Supprimer le programme" tooltipPosition="top"
+                            (click)="delete(e)"><i *ngIf="!loadingDelete" class="pi pi-fw pi-trash"></i> <i
+                              *ngIf="loadingDelete" class="pi pi-spin pi-spinner"></i></button></div>
+                        <div *ngIf="e.etat.id==2"><button class="btn btn-warning mr-2" pTooltip="Fermer ce programme"
+                            tooltipPosition="top" (click)="close(e)"><i *ngIf="!loadingClose"
+                              class="pi pi-fw pi-pause"></i> <i *ngIf="loadingClose" class="pi pi-spin pi-spinner"></i>
+                          </button></div>
+                        <div *ngIf="e.etat.id==3"><button class="btn btn-success mr-2" pTooltip="Publier Résultat"
+                            tooltipPosition="top" (click)="goToResultat(e.id)"><i
+                              class="pi pi-fw pi-check-circle"></i></button></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-sm-9">
+                  <ul class="pagination">
+                    <li class="paginate_button page-item previous" *ngIf="!first"><a (click)="paginate(page-1,size)"
+                        class="page-link">Précedent</a></li>
+                    <li class="paginate_button page-item {{active(i+1)}}"
+                      *ngFor="let k of counter(totalPages);let i = index"><a (click)="paginate(i+1,size)"
+                        class="page-link">{{i+1}}</a></li>
+                    <li class="paginate_button page-item next" *ngIf="!last"><a (click)="paginate(page+1,size)"
+                        class="page-link">Suivant</a></li>
+                  </ul>
                 </div>
+                <div class="col-sm-3">
+                  {{page}} / {{totalPages}}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -76,5 +119,3 @@
 
   </div>
   <!-- End of Page Wrapper -->
-
-
